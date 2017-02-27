@@ -21,6 +21,8 @@ import net.unit8.sigcolle.model.User;
 import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 
+import java.util.*;
+
 import static enkan.util.HttpResponseUtils.RedirectStatusCode.SEE_OTHER;
 import static enkan.util.HttpResponseUtils.redirect;
 import static enkan.util.ThreadingUtils.some;
@@ -110,11 +112,26 @@ public class CampaignController {
         model.setStatement(processor.markdownToHtml(form.getStatement()));
         model.setCreateUserId(principal.getUserId());
 
+        model.setTitle(form.getTitle());
+
+//        long goal=0;
+//        try
+//        {
+         long goal = Long.parseLong(form.getGoal());
+//        }catch(Exception ex)
+//        {
+//        }
+//        finally {
+            model.setGoal(goal);
+//        }
+
         CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
+
         // TODO Databaseに登録する
+        campaignDao.insert(model);
 
         HttpResponse response = redirect("/campaign/" + model.getCampaignId(), SEE_OTHER);
-        response.setFlash(new Flash<>(""/* TODO: キャンペーンが新規作成できた旨のメッセージを生成する */));
+        response.setFlash(new Flash<>("新キャンペーンを作成しました"/* TODO: キャンペーンが新規作成できた旨のメッセージを生成する */));
 
         return response;
     }
@@ -126,10 +143,32 @@ public class CampaignController {
      *
      * @param session ログインしているユーザsession
      */
-    public HttpResponse listCampaigns(Session session) {
-        throw new UnsupportedOperationException("実装してください !!");
+    public HttpResponse listCampaigns(Session session)
+    {
+        LoginUserPrincipal principal = (LoginUserPrincipal) session.get("principal");
+        Long loginUserID = principal.getUserId();
+
+        CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
+        List<Campaign> list = campaignDao.selectAll();
+
+        ArrayList<Campaign> makelist = new ArrayList<Campaign>();
+
+        for(Campaign cp : list){
+            //loginUserID.equals(cp.getCreateUserId());
+            if(loginUserID == cp.getCreateUserId()|| loginUserID.equals(cp.getCreateUserId())){
+//                list.remove( Integer(cp.toString().indexOf()));
+                makelist.add(cp);
+            }
+        }
+
+
+        return templateEngine.render("index", "campaigns", makelist);
+
+//        throw new UnsupportedOperationException("実装してください !!");
     }
 
+
+    //---------------------------
     private HttpResponse showCampaign(Long campaignId,
                                       SignatureForm form,
                                       String message) {
