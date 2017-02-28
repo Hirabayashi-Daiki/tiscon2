@@ -67,8 +67,11 @@ public class EditController {
 //                    "user", form
 //            );
 //        }
+        Session session = new Session();
+        User loginUser = userDao.selectByEmail(form.getEmail());
 
         User user = new User();
+        user.setUserId(loginUser.getUserId());
         user.setLastName(form.getLastName());
         user.setFirstName(form.getFirstName());
         user.setEmail(form.getEmail());
@@ -77,8 +80,8 @@ public class EditController {
         //userDao.delete(user);
         userDao.update(user);
 
-        Session session = new Session();
-        User loginUser = userDao.selectByEmail(form.getEmail());
+        //Session session = new Session();
+        //User loginUser = userDao.selectByEmail(form.getEmail());
         session.put(
                 "principal",
                 new LoginUserPrincipal(loginUser.getUserId(), loginUser.getLastName() + " " + loginUser.getFirstName())
