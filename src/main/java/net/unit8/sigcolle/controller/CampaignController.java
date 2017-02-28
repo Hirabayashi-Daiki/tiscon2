@@ -180,6 +180,8 @@ public class CampaignController {
 
         int signatureCount = signatureDao.countByCampaignId(campaignId);
 
+
+
         return templateEngine.render("campaign/index",
                 "campaign", campaign,
                 "user", user,
