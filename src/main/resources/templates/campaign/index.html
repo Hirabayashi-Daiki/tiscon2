@@ -37,8 +37,8 @@ xmlns:th="http://www.thymeleaf.org">
 
 
                         <script type="text/javascript" >
-                        var g = "{$campaign.goal}";
-                        var c = "{$signatureCount}";
+                        var g = {$campaign.goal};
+                        var c = {$signatureCount};
 
                         if((g-c)>=0)
                         {

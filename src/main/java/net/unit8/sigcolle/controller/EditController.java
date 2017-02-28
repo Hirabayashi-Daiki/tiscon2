@@ -52,7 +52,7 @@ public class EditController {
      * @return HttpResponse
      */
     @Transactional
-    public HttpResponse edit(EditForm form) {
+    public HttpResponse edit(EditForm form, Session session) {
 
         if (form.hasErrors()) {
             return templateEngine.render("user/edit", "user", form);
@@ -67,24 +67,25 @@ public class EditController {
 //                    "user", form
 //            );
 //        }
-        Session session = new Session();
-        User loginUser = userDao.selectByEmail(form.getEmail());
+        LoginUserPrincipal principal = (LoginUserPrincipal) session.get("principal");
+        Long loginUserId = principal.getUserId();
+
+
 
         User user = new User();
-        user.setUserId(loginUser.getUserId());
+        user.setUserId(loginUserId);
         user.setLastName(form.getLastName());
         user.setFirstName(form.getFirstName());
         user.setEmail(form.getEmail());
         user.setPass(form.getPass());
 
+
         //userDao.delete(user);
         userDao.update(user);
 
-        //Session session = new Session();
-        //User loginUser = userDao.selectByEmail(form.getEmail());
         session.put(
                 "principal",
-                new LoginUserPrincipal(loginUser.getUserId(), loginUser.getLastName() + " " + loginUser.getFirstName())
+                new LoginUserPrincipal(loginUserId, user.getLastName() + user.getFirstName())
         );
 
         HttpResponse response = redirect("/", SEE_OTHER);
