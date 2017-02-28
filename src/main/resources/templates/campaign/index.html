@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title></title>
     <link href="http://fonts.googleapis.com/css?family=Exo:900" rel="stylesheet"/>
@@ -25,6 +25,11 @@ xmlns:th="http://www.thymeleaf.org">
                 <div class="ui grid">
                     <div class="ten wide column">
                         <div class="statement" th:utext="${campaign.statement}" ></div>
+                        <span style="FONT-SIZE:30PX;COLOR:#ffffff" th:text="賛同者の声">1000</span>
+                        <div th:each="comment : ${commentlist}">
+                            <a style="FONT-SIZE:20PX" class="commentlist" th:text="${comment}">comemememem</a>
+                        </div>
+                        <!--<div class="commentlist" th:utext="${campaign.commnentlist.get(0)}" ></div>-->
                     </div>
                     <div class="six wide column">
                         <h2>今すぐ賛同</h2>
@@ -36,20 +41,20 @@ xmlns:th="http://www.thymeleaf.org">
                         </div>
 
 
-                        <script type="text/javascript" >
-                        var g = {$campaign.goal};
-                        var c = {$signatureCount};
+                        <!--<script type="text/javascript" >-->
+                        <!--var g = "{$campaign.goal}";-->
+                        <!--var c = "{$signatureCount}";-->
 
-                        if((g-c)>=0)
-                        {
-                            document.write("<p>hoeghogeee</p>");
-                        }
-                        else
-                        {
-                            document.write("<p>目標を超えると，マイナスになる問題は，実装途中だよ</p>");
-                        }
+                        <!--if((g-c)>=0)-->
+                        <!--{-->
+                            <!--document.write("<p>hoeghogeee</p>");-->
+                        <!--}-->
+                        <!--else-->
+                        <!--{-->
+                            <!--document.write("<p>目標を超えると，マイナスになる問題は，実装途中だよ</p>");-->
+                        <!--}-->
 
-                        </script>
+                        <!--</script>-->
                         <p>
                             <span style="FONT-SIZE:30PX; COLOR:#ff0000;" th:text="${campaign.goal}">1000</span>人まで残り
                             <span style="FONT-SIZE:30PX; COLOR:#ff0000;" th:text="${campaign.goal - signatureCount}">1</span>人の賛同者が必要です！

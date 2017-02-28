@@ -172,6 +172,12 @@ public class CampaignController {
         User user = userDao.selectByUserId(campaign.getCreateUserId());
 
         SignatureDao signatureDao = domaProvider.getDao(SignatureDao.class);
+        ArrayList<String> commnentlist = new ArrayList<>();
+        List<Signature>list = signatureDao.selectAllByCampaignId(campaignId);
+        for (Signature s:list){
+            commnentlist.add(s.getSignatureComment());
+        }
+
         int signatureCount = signatureDao.countByCampaignId(campaignId);
 
         return templateEngine.render("campaign/index",
@@ -179,7 +185,9 @@ public class CampaignController {
                 "user", user,
                 "signatureCount", signatureCount,
                 "signature", form,
-                "message", message
+                "message", message,
+                "commentlist",commnentlist
+
         );
     }
 }
