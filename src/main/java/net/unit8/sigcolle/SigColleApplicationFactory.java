@@ -49,6 +49,12 @@ public class SigColleApplicationFactory implements ApplicationFactory {
             r.get("/auth/campaign").to(CampaignController.class, "newCampaign");
             r.post("/auth/campaign").to(CampaignController.class, "create");
             r.get("/auth/user/campaigns").to(CampaignController.class, "listCampaigns");
+
+            //追加したよmaeken
+            r.get("/edit").to(EditController.class,  "index");
+            r.post("/edit").to(EditController.class, "edit");
+            //ここまで
+
         }).compile();
 
         app.use(new DefaultCharsetMiddleware());

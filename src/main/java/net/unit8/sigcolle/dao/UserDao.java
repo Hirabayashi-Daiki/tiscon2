@@ -2,9 +2,9 @@ package net.unit8.sigcolle.dao;
 
 import net.unit8.sigcolle.DomaConfig;
 import net.unit8.sigcolle.model.User;
-import org.seasar.doma.Dao;
-import org.seasar.doma.Insert;
-import org.seasar.doma.Select;
+import org.seasar.doma.*;
+
+import javax.ejb.Remove;
 
 /**
  * @author takahashi
@@ -22,4 +22,11 @@ public interface UserDao {
 
     @Select(ensureResult = true)
     User selectByEmail(String email);
+
+    @Update
+    int update(User user);
+
+    @Delete
+    int delete(User user);
+
 }

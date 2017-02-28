@@ -92,7 +92,6 @@ public class CampaignController {
     /**
      * 新規キャンペーンを作成します.
      * ---------------------------------------
-     * FIXME このメソッドは作成途中です.
      *
      * @param form    入力フォーム
      * @param session ログインしているユーザsession
@@ -107,31 +106,32 @@ public class CampaignController {
 
         PegDownProcessor processor = new PegDownProcessor(Extensions.ALL);
 
-        // TODO タイトル, 目標人数を登録する
+        // タイトル, 目標人数を登録する
         Campaign model = new Campaign();
         model.setStatement(processor.markdownToHtml(form.getStatement()));
         model.setCreateUserId(principal.getUserId());
 
         model.setTitle(form.getTitle());
 
-//        long goal=0;
-//        try
-//        {
-         long goal = Long.parseLong(form.getGoal());
-//        }catch(Exception ex)
-//        {
-//        }
-//        finally {
+        long goal=0;
+        try
+        {
+            goal = Long.parseLong(form.getGoal());
+        }catch(Exception ex)
+        {
+            System.out.print(ex.getMessage());
+        }
+        finally {
             model.setGoal(goal);
-//        }
+        }
 
         CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
 
-        // TODO Databaseに登録する
+        // Databaseに登録する
         campaignDao.insert(model);
 
         HttpResponse response = redirect("/campaign/" + model.getCampaignId(), SEE_OTHER);
-        response.setFlash(new Flash<>("新キャンペーンを作成しました"/* TODO: キャンペーンが新規作成できた旨のメッセージを生成する */));
+        response.setFlash(new Flash<>("新キャンペーンを作成しました"));
 
         return response;
     }
@@ -139,7 +139,6 @@ public class CampaignController {
     /**
      * ログインユーザの作成したキャンペーン一覧を表示します.
      * ---------------------------------------
-     * FIXME このメソッドは作成途中です.
      *
      * @param session ログインしているユーザsession
      */
@@ -154,17 +153,12 @@ public class CampaignController {
         ArrayList<Campaign> makelist = new ArrayList<Campaign>();
 
         for(Campaign cp : list){
-            //loginUserID.equals(cp.getCreateUserId());
             if(loginUserID == cp.getCreateUserId()|| loginUserID.equals(cp.getCreateUserId())){
-//                list.remove( Integer(cp.toString().indexOf()));
                 makelist.add(cp);
             }
         }
 
-
         return templateEngine.render("index", "campaigns", makelist);
-
-//        throw new UnsupportedOperationException("実装してください !!");
     }
 
 
