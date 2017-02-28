@@ -35,35 +35,26 @@ xmlns:th="http://www.thymeleaf.org">
                             <div class="bar" th:style="${'width:' + (signatureCount * 100 / campaign.goal) + '%'}"></div>
                         </div>
 
+
                         <script type="text/javascript" >
-                            if(((campaign.goal - signatureCount)<=0)
-                            {
-                                document.write("<p><span> ${campaign.goal}人の目標を達成しました！！現在${signatureCount}人の賛同者がいます！</span></p>");
-                            }
-                            else
-                            {
-                                document.write("<p><span>${campaign.goal}人まで残り${campaign.goal - signatureCount}"人の賛同者が必要です！</span></p>");
-                            }
+                        var g = "{$campaign.goal}";
+                        var c = "{$signatureCount}";
+
+                        if((g-c)>=0)
+                        {
+                            document.write("<p>hoeghogeee</p>");
+                        }
+                        else
+                        {
+                            document.write("<p>目標を超えると，マイナスになる問題は，実装途中だよ</p>");
+                        }
+
                         </script>
-                        <!--</script>-->
-                        <!--<p>-->
-                            <!--if((campaign.goal - signatureCount)<=0)-->
-                            <!--{-->
-                            <!--&lt;!&ndash;document.write(&ndash;&gt;-->
-                            <!--<span th:text="${campaign.goal}">1000</span>人の目標を達成しました！！現在-->
-                            <!--<span th:text="${signatureCount}">1</span>人の賛同者がいます！ );-->
-                            <!--&lt;!&ndash;}&ndash;&gt;-->
-                            <!--else-->
-                            <!--<span th:text="${campaign.goal}">1000</span>人まで残り-->
-                            <!--<span th:text="${campaign.goal - signatureCount}">1</span>人の賛同者が必要です！-->
-                            <!--&lt;!&ndash;{&ndash;&gt;-->
-                            <!--&lt;!&ndash;document.write(<span th:text="${campaign.goal}">1000</span>人まで残り<span th:text="${campaign.goal - signatureCount}">1</span>人の賛同者が必要です！);&ndash;&gt;-->
-                            <!--&lt;!&ndash;}&ndash;&gt;-->
-                        <!--</p>-->
-                        <!--<p>-->
-                            <!--<span th:text="${campaign.goal}">1000</span>人まで残り-->
-                            <!--<span th:text="${campaign.goal - signatureCount}">1</span>人の賛同者が必要です！-->
-                        <!--</p>-->
+                        <p>
+                            <span style="FONT-SIZE:30PX; COLOR:#ff0000;" th:text="${campaign.goal}">1000</span>人まで残り
+                            <span style="FONT-SIZE:30PX; COLOR:#ff0000;" th:text="${campaign.goal - signatureCount}">1</span>人の賛同者が必要です！
+                        </p>
+
 
                         <form class="ui form" method="post" th:action="@{~/campaign/{id}(id=${campaign.campaignId})}" th:classappend="${signature.hasErrors()} ? 'error'">
                             <div class="field" th:classappend="${signature.hasErrors('name')} ? 'error'">
